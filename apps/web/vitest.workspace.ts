@@ -13,6 +13,7 @@ export default defineWorkspace([
     publicDir: 'public',
     test: {
       name: 'storybook',
+      setupFiles: ['./storybook.setup.ts'],
       browser: {
         enabled: true,
         headless: true,
