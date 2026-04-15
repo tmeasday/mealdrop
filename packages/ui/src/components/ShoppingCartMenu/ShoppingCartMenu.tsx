@@ -86,7 +86,7 @@ export const ShoppingCartMenu = ({
     isOpen={isOpen}
     footer={<Footer onClick={onGoToCheckoutClick} totalPrice={totalPrice} />}
   >
-    <div style={{ display: 'grid', gap: '24px' }}>
+    <div style={{ display: 'grid', gap: '15px' }}>
       {cartItems.map((item) => (
         <ShoppingCartMenuItem
           key={item.id}

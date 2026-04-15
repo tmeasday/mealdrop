@@ -5,7 +5,7 @@ import { Body } from '../../typography/Body'
 export const CartItemContainer = styled.div`
   width: 100%;
   display: flex;
-  margin-bottom: 1rem;
+  margin-bottom: 15px;
 `
 
 export const Quantity = styled(Body)`
