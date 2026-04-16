@@ -6,19 +6,8 @@
       "name": "ui-storybook",
       "runtimeExecutable": "yarn",
       "runtimeArgs": ["workspace", "@mealdrop/ui", "storybook", "--port", "$PORT", "--ci"],
-      "autoPort": true
-    },
-    {
-      "name": "web-storybook",
-      "runtimeExecutable": "yarn",
-      "runtimeArgs": ["workspace", "@mealdrop/web", "storybook", "--port", "$PORT", "--ci"],
-      "autoPort": true
-    },
-    {
-      "name": "web",
-      "runtimeExecutable": "yarn",
-      "runtimeArgs": ["workspace", "@mealdrop/web", "dev"],
-      "port": 3000
+      "autoPort": true,
+      "port": 6006
     }
   ]
 }
