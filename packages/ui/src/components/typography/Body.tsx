@@ -12,6 +12,7 @@ type StyledBodyProps = {
 const BodyBase = styled.p<StyledBodyProps>(
   ({ $size, $fontWeight, color: textColor, theme: { typography, color } }) => css`
     display: block;
+    margin: 0;
     font-family: 'Hind';
     color: ${textColor || color.primaryText};
     font-weight: ${typography.fontWeight[$fontWeight as FontWeight]};
