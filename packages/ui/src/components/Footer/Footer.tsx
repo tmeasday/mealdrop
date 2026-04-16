@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled, { css, useTheme } from 'styled-components'
 
 import { breakpoints } from '../../styles/breakpoints'
 import { FooterCard } from '../FooterCard/FooterCard'
@@ -33,13 +33,14 @@ const FooterTop = styled.div`
 `
 
 export const Footer = () => {
+  const theme = useTheme()
   const navigationLinks = [
     {
       name: 'Home',
       href: '/',
     },
     {
-      name: 'Categories',
+      name: 'Tags',
       href: '/categories',
     },
     {
@@ -76,8 +77,12 @@ export const Footer = () => {
         <FooterTop>
           <Logo large logoOnly />
           <FooterCard title="Discover us" links={navigationLinks} />
-          <FooterCard title="Our social media" links={socialMediaLinks} />
-          <FooterCard title="Check our apps">
+          <FooterCard
+            title="Mealdrop's Socials"
+            titleColor={theme.color.buttonSecondary}
+            links={socialMediaLinks}
+          />
+          <FooterCard title="Get the App!">
             <div className="footer-bottom">
               <img
                 alt="app store link"

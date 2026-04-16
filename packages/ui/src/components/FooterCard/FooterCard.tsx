@@ -43,6 +43,7 @@ const FooterCardContainer = styled.div(
 
 type FooterCardProps = {
   title: string
+  titleColor?: string
   links?: {
     external?: boolean
     name: string
@@ -52,11 +53,14 @@ type FooterCardProps = {
 
 export const FooterCard: React.FC<React.PropsWithChildren<FooterCardProps>> = ({
   title,
+  titleColor,
   links = [],
   children,
 }) => (
   <FooterCardContainer>
-    <Heading level={2}>{title}</Heading>
+    <Heading level={2} style={titleColor ? { color: titleColor } : undefined}>
+      {title}
+    </Heading>
     {links.length > 0 && (
       <ul>
         {links.map(({ external, name, href }) => (

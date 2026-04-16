@@ -30,10 +30,11 @@ export const Heading: React.FC<React.PropsWithChildren<HeadingProps>> = ({
   level = 1,
   children,
   className,
+  ...rest
 }) => {
   const heading = `h${level}` as React.ElementType
   return (
-    <HeadingBase as={heading} $level={level} className={className}>
+    <HeadingBase as={heading} $level={level} className={className} {...rest}>
       {children}
     </HeadingBase>
   )
