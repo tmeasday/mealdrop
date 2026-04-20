@@ -8,7 +8,7 @@ Run from the repo root (Turbo orchestrates workspaces):
 
 - `yarn check` — typecheck everything (runs `tsc --noEmit` in each workspace)
 - `yarn build` — build all apps and packages
-- `yarn test` / `yarn test:ci` — run unit tests
+- `yarn test` / `yarn test:ci` — run unit tests -- DO NOT CHECK THIS for UI tasks, instead use story tests.
 - `yarn lint` — ESLint across the repo
 - `yarn storybook` — start the UI package's Storybook
 
