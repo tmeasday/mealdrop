@@ -29,10 +29,29 @@ export const OrderSummaryContainer = styled.div<{ fixed?: boolean }>(
 export const BottomContainer = styled.div`
   margin-top: auto;
   border-top: 1px solid #f5f6f7;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`
+
+export const BreakdownRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
 `
+
+export const TotalRow = styled(BreakdownRow)`
+  margin-top: 0.25rem;
+`
+
+export const FeeExplanation = styled.p(
+  ({ theme: { typography } }) => css`
+    margin: 0.25rem 0 0.75rem;
+    font-size: ${typography.fontSize.bodyXS};
+    opacity: 0.75;
+  `
+)
 
 export const EmptyMessageContainer = styled.span`
   font-size: 18px;
