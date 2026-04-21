@@ -55,13 +55,15 @@ export const OrderSummary = ({ cartItems }: OrderSummaryProps) => {
                 <Body type="span">Service fee</Body>
                 <Body type="span">{toCurrency(fees.serviceFee)}</Body>
               </BreakdownRow>
-              <BreakdownNote>Fees help cover delivery and keep the app running.</BreakdownNote>
             </>
           )}
           <TotalRow>
             <Body>Total</Body>
             <StyledHeading level={2}>{toCurrency(fees.total)}</StyledHeading>
           </TotalRow>
+          {hasItems && (
+            <BreakdownNote>Fees help cover delivery and keep the app running.</BreakdownNote>
+          )}
         </BottomContainer>
       </OrderSummaryContainer>
     </>
