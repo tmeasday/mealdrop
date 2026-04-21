@@ -120,7 +120,7 @@ export const ToCheckoutPage = {
     })
 
     await step('Go to "Checkout" page', async () => {
-      await userEvent.click(canvas.getByText(/checkout/i))
+      await userEvent.click(canvas.getByRole('button', { name: /checkout/i }))
     })
   },
 } satisfies Story

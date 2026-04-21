@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 
 import { useAppSelector } from '../../app-state'
-import { selectCartItems } from '../../app-state/cart'
+import { selectCartBreakdown, selectCartItems } from '../../app-state/cart'
 import { OrderSummary, Heading } from '@mealdrop/ui'
 import { PageTemplate } from '@mealdrop/ui/templates'
 import { breakpoints } from '@mealdrop/ui/styles'
@@ -58,6 +58,7 @@ const ContentContainer = styled.div(
 
 export const CheckoutPage = () => {
   const cartItems = useAppSelector(selectCartItems)
+  const breakdown = useAppSelector(selectCartBreakdown)
 
   return (
     <PageTemplate type="basic">
@@ -70,7 +71,7 @@ export const CheckoutPage = () => {
         <BottomContainer className="container">
           <MultiStepForm />
           <OrderDetailsContainer>
-            <OrderSummary cartItems={cartItems} />
+            <OrderSummary cartItems={cartItems} breakdown={breakdown} />
           </OrderDetailsContainer>
         </BottomContainer>
       </ContentContainer>
