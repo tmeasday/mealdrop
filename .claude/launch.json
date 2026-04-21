@@ -3,9 +3,9 @@
   "autoVerify": false,
   "configurations": [
     {
-      "name": "ui-storybook",
+      "name": "web-storybook",
       "runtimeExecutable": "yarn",
-      "runtimeArgs": ["workspace", "@mealdrop/ui", "storybook", "--port", "$PORT", "--ci"],
+      "runtimeArgs": ["workspace", "@mealdrop/web", "storybook", "--port", "$PORT", "--ci"],
       "autoPort": true,
       "port": 6006
     }
