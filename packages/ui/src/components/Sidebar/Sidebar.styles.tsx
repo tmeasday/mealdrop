@@ -61,6 +61,8 @@ export const SidebarContainer = styled.div(
     right: 0;
     bottom: 0;
     left: 0;
+    display: flex;
+    flex-direction: column;
     transform-origin: 'top center';
     box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
 
@@ -72,7 +74,8 @@ export const SidebarContainer = styled.div(
 export const SidebarContent = styled.div`
   padding: 1.5rem;
   overflow: auto;
-  max-height: calc(100vh - 237px); /** viewport height - topbar - footer */
+  flex: 1 1 auto;
+  min-height: 0;
 `
 
 export const Backdrop = styled.div`
@@ -120,10 +123,8 @@ export const SidebarFooter = styled.div(
     background-color: ${color.sidebarFooter};
     display: flex;
     padding: 1.5rem;
-    bottom: 0;
-    height: 165px;
     width: 100%;
+    flex: 0 0 auto;
     border-top: 1px solid ${color.headerBorder};
-    position: absolute;
   `
 )
