@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components'
 
+import { Body } from '../../typography/Body'
 import { Heading } from '../../typography/Heading'
 
 export const StyledHeading = styled(Heading)<{ $withMargin?: boolean }>(
@@ -29,10 +30,32 @@ export const OrderSummaryContainer = styled.div<{ fixed?: boolean }>(
 export const BottomContainer = styled.div`
   margin-top: auto;
   border-top: 1px solid #f5f6f7;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`
+
+export const BreakdownRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
 `
+
+export const TotalRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+`
+
+export const FeesExplanation = styled(Body)(
+  ({ theme: { color, typography } }) => css`
+    font-size: ${typography.fontSize.bodyXS};
+    color: ${color.cartButtonText};
+    padding-bottom: 0.5rem;
+  `
+)
 
 export const EmptyMessageContainer = styled.span`
   font-size: 18px;

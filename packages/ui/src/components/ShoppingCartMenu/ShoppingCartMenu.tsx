@@ -1,7 +1,7 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { CartItem } from '../../app-state/cart'
-import { toCurrency } from '../../helpers'
+import { CartPricing, FEES_EXPLANATION, calculateCartPricing, toCurrency } from '../../helpers'
 import { Button } from '../Button'
 import { Select } from '../forms/Select'
 import { Sidebar } from '../Sidebar'
@@ -14,19 +14,57 @@ const FooterContainer = styled.div`
   justify-content: space-between;
 `
 
+const BreakdownRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+`
+
+const FeesExplanation = styled(Body)(
+  ({ theme: { color, typography } }) => css`
+    font-size: ${typography.fontSize.bodyXS};
+    color: ${color.cartButtonText};
+    margin-bottom: 16px;
+  `
+)
+
 const TotalSection = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 24px;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
 `
 
-const Footer = ({ onClick, totalPrice }: any) => (
+type FooterProps = {
+  onClick?: () => void
+  pricing: CartPricing
+  hasItems: boolean
+}
+
+const Footer = ({ onClick, pricing, hasItems }: FooterProps) => (
   <FooterContainer>
+    {hasItems && (
+      <>
+        <BreakdownRow>
+          <Body type="span">Subtotal</Body>
+          <Body type="span">{toCurrency(pricing.subtotal)}</Body>
+        </BreakdownRow>
+        <BreakdownRow>
+          <Body type="span">Fees</Body>
+          <Body type="span">{toCurrency(pricing.fees)}</Body>
+        </BreakdownRow>
+        <FeesExplanation type="span">{FEES_EXPLANATION}</FeesExplanation>
+      </>
+    )}
     <TotalSection>
-      <Body type="span">Total</Body>
-      <Body type="span">{toCurrency(totalPrice)}</Body>
+      <Body type="span" fontWeight="medium">
+        Total
+      </Body>
+      <Body type="span" fontWeight="medium">
+        {toCurrency(pricing.total)}
+      </Body>
     </TotalSection>
-    <Button disabled={totalPrice === 0} large onClick={onClick}>
+    <Button disabled={!hasItems} large onClick={onClick}>
       Checkout
     </Button>
   </FooterContainer>
@@ -65,7 +103,6 @@ const ShoppingCartMenuItem = ({ item, onChange }: any) => (
 
 type ShoppingCartMenuProps = {
   isOpen: boolean
-  totalPrice: number
   onClose: () => void
   cartItems: CartItem[]
   onGoToCheckoutClick?: () => void
@@ -76,24 +113,28 @@ export const ShoppingCartMenu = ({
   isOpen,
   onClose,
   cartItems,
-  totalPrice,
   onItemChange,
   onGoToCheckoutClick,
-}: ShoppingCartMenuProps) => (
-  <Sidebar
-    title="Your order"
-    onClose={onClose}
-    isOpen={isOpen}
-    footer={<Footer onClick={onGoToCheckoutClick} totalPrice={totalPrice} />}
-  >
-    <div style={{ display: 'grid', gap: '15px' }}>
-      {cartItems.map((item) => (
-        <ShoppingCartMenuItem
-          key={item.id}
-          item={item}
-          onChange={(quantity: number) => onItemChange({ ...item, quantity })}
-        />
-      ))}
-    </div>
-  </Sidebar>
-)
+}: ShoppingCartMenuProps) => {
+  const pricing = calculateCartPricing(cartItems)
+  return (
+    <Sidebar
+      title="Your order"
+      onClose={onClose}
+      isOpen={isOpen}
+      footer={
+        <Footer onClick={onGoToCheckoutClick} pricing={pricing} hasItems={cartItems.length > 0} />
+      }
+    >
+      <div style={{ display: 'grid', gap: '15px' }}>
+        {cartItems.map((item) => (
+          <ShoppingCartMenuItem
+            key={item.id}
+            item={item}
+            onChange={(quantity: number) => onItemChange({ ...item, quantity })}
+          />
+        ))}
+      </div>
+    </Sidebar>
+  )
+}

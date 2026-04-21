@@ -163,7 +163,6 @@ export const HeaderComponent = ({
           onClose={toggleCartVisibility}
           onGoToCheckoutClick={goToCheckout}
           cartItems={cartItems}
-          totalPrice={totalPrice}
           onItemChange={saveItem}
         />
       </>

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useEffect, useState } from 'react'
-import { fn } from 'storybook/test'
+import { expect, fn } from 'storybook/test'
 
 import { cartItems } from '../../stub/cart-items'
 import { Button } from '../Button'
@@ -19,7 +19,6 @@ const meta = {
   args: {
     isOpen: true,
     cartItems: cartItems,
-    totalPrice: 1200,
     /*
     The following lines emulate the event handlers that would be passed to the component
     Read more about the `fn` utility function at
@@ -36,11 +35,22 @@ type Story = StoryObj<typeof meta>
 export const Empty: Story = {
   args: {
     cartItems: [],
-    totalPrice: 0,
+  },
+  play: async ({ canvas }) => {
+    const checkoutButton = await canvas.findByRole('button', { name: /checkout/i })
+    await expect(checkoutButton).toBeDisabled()
   },
 }
 
-export const WithItems: Story = {}
+export const WithItems: Story = {
+  play: async ({ canvas }) => {
+    await expect(canvas.getByText('Subtotal')).toBeInTheDocument()
+    await expect(canvas.getByText('Fees')).toBeInTheDocument()
+    await expect(canvas.getByText('Total')).toBeInTheDocument()
+    const checkoutButton = await canvas.findByRole('button', { name: /checkout/i })
+    await expect(checkoutButton).toBeEnabled()
+  },
+}
 
 export const Mobile: Story = {
   globals: {
@@ -65,7 +75,6 @@ export const Playground: Story = {
         <ShoppingCartMenu
           isOpen={isOpen}
           cartItems={cartItems}
-          totalPrice={1200}
           onItemChange={() => {}}
           onClose={() => {
             closeShoppingCartMenu()

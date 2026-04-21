@@ -1,4 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit'
+import { calculateCartPricing } from '@mealdrop/ui'
 
 import { RootState } from '../store'
 
@@ -12,6 +13,8 @@ export const selectCartItemsCount = createSelector([selectCartItems], (items) =>
   items.reduce((acc, item) => acc + item.quantity, 0)
 )
 
-export const selectCartTotal = createSelector([selectCartItems], (items) =>
-  items.reduce((acc, item) => acc + item.quantity * item.price, 0)
+export const selectCartPricing = createSelector([selectCartItems], (items) =>
+  calculateCartPricing(items)
 )
+
+export const selectCartTotal = createSelector([selectCartPricing], (pricing) => pricing.total)
