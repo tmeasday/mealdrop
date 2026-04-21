@@ -6,7 +6,9 @@ import { useAppDispatch, useAppSelector } from '../../app-state'
 import {
   CartItem,
   saveItemAction,
+  selectCartFees,
   selectCartItems,
+  selectCartSubtotal,
   selectCartTotal,
   selectCartVisibility,
   toggleVisibilityAction,
@@ -115,6 +117,8 @@ const ThemeToggle = () => {
 type HeaderComponentProps = {
   isCartVisible?: boolean
   cartItems?: CartItem[]
+  subtotal?: number
+  fees?: number
   totalPrice?: number
   logoOnly?: boolean
   sticky?: boolean
@@ -127,6 +131,8 @@ export const HeaderComponent = ({
   isCartVisible = false,
   logoOnly = false,
   sticky = false,
+  subtotal = 0,
+  fees = 0,
   totalPrice = 0,
   cartItems = [],
   toggleCartVisibility = () => {},
@@ -163,6 +169,8 @@ export const HeaderComponent = ({
           onClose={toggleCartVisibility}
           onGoToCheckoutClick={goToCheckout}
           cartItems={cartItems}
+          subtotal={subtotal}
+          fees={fees}
           totalPrice={totalPrice}
           onItemChange={saveItem}
         />
@@ -174,6 +182,8 @@ export const HeaderComponent = ({
 export const Header = ({ sticky }: { sticky?: boolean }) => {
   const isCartVisible = useAppSelector(selectCartVisibility)
   const cartItems = useAppSelector(selectCartItems)
+  const subtotal = useAppSelector(selectCartSubtotal)
+  const fees = useAppSelector(selectCartFees)
   const totalPrice = useAppSelector(selectCartTotal)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -192,6 +202,8 @@ export const Header = ({ sticky }: { sticky?: boolean }) => {
       cartItems={cartItems}
       isCartVisible={isCartVisible}
       toggleCartVisibility={toggleCartVisibility}
+      subtotal={subtotal}
+      fees={fees}
       totalPrice={totalPrice}
       saveItem={saveItem}
     />

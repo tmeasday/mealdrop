@@ -17,3 +17,9 @@ export const Default: Story = {
     cartItems,
   },
 }
+
+export const Empty: Story = {
+  args: {
+    cartItems: [],
+  },
+}

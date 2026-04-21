@@ -3,11 +3,14 @@ import { useMemo } from 'react'
 import { ShoppingCartItem } from '../ShoppingCartItem/ShoppingCartItem'
 import { CartItem } from '../../../app-state/cart'
 import { Body } from '../../typography/Body'
-import { toCurrency } from '../../../helpers'
+import { calculatePricing, toCurrency } from '../../../helpers'
 
 import {
   OrderSummaryContainer,
   BottomContainer,
+  BreakdownContainer,
+  BreakdownRow,
+  FeeNote,
   CartItemsContainer,
   StyledHeading,
 } from './OrderSummary.styles'
@@ -17,10 +20,7 @@ type OrderSummaryProps = {
 }
 
 export const OrderSummary = ({ cartItems }: OrderSummaryProps) => {
-  const totalPrice = useMemo(
-    () => cartItems.map((item) => item.quantity * item.price).reduce((acc, next) => acc + next, 0),
-    [cartItems]
-  )
+  const { subtotal, fees, total } = useMemo(() => calculatePricing(cartItems), [cartItems])
   return (
     <>
       <OrderSummaryContainer>
@@ -34,9 +34,20 @@ export const OrderSummary = ({ cartItems }: OrderSummaryProps) => {
             <Body>Your cart is empty.</Body>
           )}
         </CartItemsContainer>
+        <BreakdownContainer>
+          <BreakdownRow>
+            <Body>Subtotal</Body>
+            <Body>{toCurrency(subtotal)}</Body>
+          </BreakdownRow>
+          <BreakdownRow>
+            <Body>Fees</Body>
+            <Body>{toCurrency(fees)}</Body>
+          </BreakdownRow>
+          <FeeNote>Fees cover delivery and keeping our riders on the road.</FeeNote>
+        </BreakdownContainer>
         <BottomContainer>
           <Body>Total</Body>
-          <StyledHeading level={2}>{toCurrency(totalPrice)}</StyledHeading>
+          <StyledHeading level={2}>{toCurrency(total)}</StyledHeading>
         </BottomContainer>
       </OrderSummaryContainer>
     </>
