@@ -30,9 +30,24 @@ export const BottomContainer = styled.div`
   margin-top: auto;
   border-top: 1px solid #f5f6f7;
   display: flex;
+  flex-direction: column;
+  padding-top: 0.75rem;
+  gap: 0.5rem;
+`
+
+export const BreakdownRow = styled.div`
+  display: flex;
   align-items: center;
   justify-content: space-between;
 `
+
+export const FeesCopy = styled.p(
+  ({ theme: { typography } }) => css`
+    font-size: ${typography.fontSize.bodyXS};
+    opacity: 0.7;
+    margin: 1rem 0 0.5rem;
+  `
+)
 
 export const EmptyMessageContainer = styled.span`
   font-size: 18px;

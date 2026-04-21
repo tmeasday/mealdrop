@@ -6,11 +6,13 @@ import { useAppDispatch, useAppSelector } from '../../app-state'
 import {
   CartItem,
   saveItemAction,
+  selectCartBreakdown,
   selectCartItems,
   selectCartTotal,
   selectCartVisibility,
   toggleVisibilityAction,
 } from '../../app-state/cart'
+import type { CartBreakdown } from '../../app-state/cart/fees'
 import { breakpoints } from '../../styles/breakpoints'
 import { ShoppingCartMenu } from '../ShoppingCartMenu'
 import { Button } from '../Button'
@@ -116,6 +118,7 @@ type HeaderComponentProps = {
   isCartVisible?: boolean
   cartItems?: CartItem[]
   totalPrice?: number
+  breakdown?: CartBreakdown
   logoOnly?: boolean
   sticky?: boolean
   toggleCartVisibility?: () => void
@@ -128,6 +131,7 @@ export const HeaderComponent = ({
   logoOnly = false,
   sticky = false,
   totalPrice = 0,
+  breakdown,
   cartItems = [],
   toggleCartVisibility = () => {},
   goToCheckout = () => {},
@@ -163,7 +167,7 @@ export const HeaderComponent = ({
           onClose={toggleCartVisibility}
           onGoToCheckoutClick={goToCheckout}
           cartItems={cartItems}
-          totalPrice={totalPrice}
+          breakdown={breakdown}
           onItemChange={saveItem}
         />
       </>
@@ -175,6 +179,7 @@ export const Header = ({ sticky }: { sticky?: boolean }) => {
   const isCartVisible = useAppSelector(selectCartVisibility)
   const cartItems = useAppSelector(selectCartItems)
   const totalPrice = useAppSelector(selectCartTotal)
+  const breakdown = useAppSelector(selectCartBreakdown)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const toggleCartVisibility = () => dispatch(toggleVisibilityAction())
@@ -193,6 +198,7 @@ export const Header = ({ sticky }: { sticky?: boolean }) => {
       isCartVisible={isCartVisible}
       toggleCartVisibility={toggleCartVisibility}
       totalPrice={totalPrice}
+      breakdown={breakdown}
       saveItem={saveItem}
     />
   )

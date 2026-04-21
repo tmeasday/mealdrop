@@ -1,30 +1,28 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useEffect, useState } from 'react'
-import { fn } from 'storybook/test'
+import { expect, fn } from 'storybook/test'
 
 import { cartItems } from '../../stub/cart-items'
+import { computeBreakdown } from '../../app-state/cart/fees'
 import { Button } from '../Button'
 import { Body } from '../typography'
 
 import { ShoppingCartMenu } from './ShoppingCartMenu'
 
+const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
+const breakdown = computeBreakdown(subtotal)
+const emptyBreakdown = computeBreakdown(0)
+
 const meta = {
   title: 'Components/ShoppingCartMenu',
   component: ShoppingCartMenu,
   parameters: {
-    // This makes it so that the modal is loaded inside of an iframe in docs mode.
-    // If it's not rendered in an iframe, the modal is going to open on top of Storybook itself!
     docs: { inlineStories: false, iframeHeight: 600 },
   },
   args: {
     isOpen: true,
     cartItems: cartItems,
-    totalPrice: 1200,
-    /*
-    The following lines emulate the event handlers that would be passed to the component
-    Read more about the `fn` utility function at
-    https://storybook.js.org/docs/essentials/actions#via-storybooktest-fn-spy-function
-    */
+    breakdown,
     onClose: fn(),
     onItemChange: fn(),
   },
@@ -36,11 +34,22 @@ type Story = StoryObj<typeof meta>
 export const Empty: Story = {
   args: {
     cartItems: [],
-    totalPrice: 0,
+    breakdown: emptyBreakdown,
+  },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('button', { name: /checkout/i })).toBeDisabled()
   },
 }
 
-export const WithItems: Story = {}
+export const WithItems: Story = {
+  play: async ({ canvas }) => {
+    await expect(canvas.getByText('Subtotal')).toBeInTheDocument()
+    await expect(canvas.getByText('Fees')).toBeInTheDocument()
+    await expect(canvas.getByText('Total')).toBeInTheDocument()
+    await expect(canvas.getByText(/Fees help cover delivery/)).toBeInTheDocument()
+    await expect(canvas.getByRole('button', { name: /checkout/i })).toBeEnabled()
+  },
+}
 
 export const Mobile: Story = {
   globals: {
@@ -65,7 +74,7 @@ export const Playground: Story = {
         <ShoppingCartMenu
           isOpen={isOpen}
           cartItems={cartItems}
-          totalPrice={1200}
+          breakdown={breakdown}
           onItemChange={() => {}}
           onClose={() => {
             closeShoppingCartMenu()
