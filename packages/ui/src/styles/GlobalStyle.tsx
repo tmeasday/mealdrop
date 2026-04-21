@@ -158,9 +158,13 @@ export const GlobalStyle = createGlobalStyle(
       padding-left: 1rem;
     }
 
+    html {
+      font-size: 17px;
+    }
+
     @media only screen and (max-width: 640px) {
       html {
-        font-size: 14px;
+        font-size: 15px;
       }
     }
     /* react-multi-carousel overrides */
