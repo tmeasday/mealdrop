@@ -1,5 +1,7 @@
 import { getCurrency } from './getCurrency'
 
+export { calculateFees, type OrderFees } from './fees'
+
 export const toCurrency = (number: number) => {
   return number.toLocaleString(undefined, {
     style: 'currency',

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useEffect, useState } from 'react'
-import { fn } from 'storybook/test'
+import { expect, fn } from 'storybook/test'
 
 import { cartItems } from '../../stub/cart-items'
 import { Button } from '../Button'
@@ -19,7 +19,7 @@ const meta = {
   args: {
     isOpen: true,
     cartItems: cartItems,
-    totalPrice: 1200,
+    totalPrice: 17.75,
     /*
     The following lines emulate the event handlers that would be passed to the component
     Read more about the `fn` utility function at
@@ -40,7 +40,16 @@ export const Empty: Story = {
   },
 }
 
-export const WithItems: Story = {}
+export const WithItems: Story = {
+  play: async ({ canvas }) => {
+    await expect(await canvas.findByText('Subtotal')).toBeInTheDocument()
+    await expect(canvas.getByText('Delivery fee')).toBeInTheDocument()
+    await expect(canvas.getByText('Service fee')).toBeInTheDocument()
+    await expect(
+      canvas.getByText(/Fees help cover delivery and keep the app running\./i)
+    ).toBeInTheDocument()
+  },
+}
 
 export const Mobile: Story = {
   globals: {

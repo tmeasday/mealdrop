@@ -1,7 +1,7 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { CartItem } from '../../app-state/cart'
-import { toCurrency } from '../../helpers'
+import { calculateFees, toCurrency } from '../../helpers'
 import { Button } from '../Button'
 import { Select } from '../forms/Select'
 import { Sidebar } from '../Sidebar'
@@ -14,23 +14,66 @@ const FooterContainer = styled.div`
   justify-content: space-between;
 `
 
+const BreakdownSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+`
+
+const BreakdownRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+const BreakdownNote = styled.p(
+  ({ theme: { color, typography } }) => css`
+    margin: 0.25rem 0 0;
+    font-size: ${typography.fontSize.bodyXS};
+    color: ${color.secondaryText};
+  `
+)
+
 const TotalSection = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin: 0.5rem 0 1.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f5f6f7;
 `
 
-const Footer = ({ onClick, totalPrice }: any) => (
-  <FooterContainer>
-    <TotalSection>
-      <Body type="span">Total</Body>
-      <Body type="span">{toCurrency(totalPrice)}</Body>
-    </TotalSection>
-    <Button disabled={totalPrice === 0} large onClick={onClick}>
-      Checkout
-    </Button>
-  </FooterContainer>
-)
+const Footer = ({ onClick, totalPrice }: any) => {
+  const fees = calculateFees(totalPrice)
+  const hasItems = totalPrice > 0
+  return (
+    <FooterContainer>
+      {hasItems && (
+        <BreakdownSection>
+          <BreakdownRow>
+            <Body type="span">Subtotal</Body>
+            <Body type="span">{toCurrency(fees.subtotal)}</Body>
+          </BreakdownRow>
+          <BreakdownRow>
+            <Body type="span">Delivery fee</Body>
+            <Body type="span">{toCurrency(fees.deliveryFee)}</Body>
+          </BreakdownRow>
+          <BreakdownRow>
+            <Body type="span">Service fee</Body>
+            <Body type="span">{toCurrency(fees.serviceFee)}</Body>
+          </BreakdownRow>
+          <BreakdownNote>Fees help cover delivery and keep the app running.</BreakdownNote>
+        </BreakdownSection>
+      )}
+      <TotalSection>
+        <Body type="span">Total</Body>
+        <Body type="span">{toCurrency(fees.total)}</Body>
+      </TotalSection>
+      <Button disabled={!hasItems} large onClick={onClick}>
+        Checkout
+      </Button>
+    </FooterContainer>
+  )
+}
 
 const MenuItemContainer = styled.div`
   display: flex;

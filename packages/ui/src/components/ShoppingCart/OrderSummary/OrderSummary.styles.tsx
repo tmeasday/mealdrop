@@ -28,6 +28,30 @@ export const OrderSummaryContainer = styled.div<{ fixed?: boolean }>(
 
 export const BottomContainer = styled.div`
   margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #f5f6f7;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`
+
+export const BreakdownRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+export const BreakdownNote = styled.p(
+  ({ theme: { color, typography } }) => css`
+    margin: 0.25rem 0 0;
+    font-size: ${typography.fontSize.bodyXS};
+    color: ${color.secondaryText};
+  `
+)
+
+export const TotalRow = styled.div`
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
   border-top: 1px solid #f5f6f7;
   display: flex;
   align-items: center;
