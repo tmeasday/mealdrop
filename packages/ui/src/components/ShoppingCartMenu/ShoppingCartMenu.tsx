@@ -18,18 +18,20 @@ const FooterContainer = styled.div`
 const BreakdownContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-top: 0.5rem;
 `
 
 const BreakdownRow = styled.div<{ $emphasized?: boolean }>(
   ({ $emphasized, theme: { typography } }) => css`
     display: flex;
     justify-content: space-between;
+    line-height: 1.2;
     ${$emphasized &&
     css`
       font-weight: ${typography.fontWeight.bold};
-      padding-top: 0.35rem;
+      padding-top: 1rem;
       border-top: 1px solid #f5f6f7;
     `}
   `
@@ -39,7 +41,8 @@ const FeesCopy = styled(Body)(
   ({ theme: { typography } }) => css`
     font-size: ${typography.fontSize.bodyXS};
     opacity: 0.7;
-    margin-bottom: 0.5rem;
+    line-height: 1.35;
+    margin: 0;
   `
 )
 
@@ -52,7 +55,6 @@ const Footer = ({ onClick, breakdown }: FooterProps) => {
   const fees = breakdown.serviceFee + breakdown.deliveryFee
   return (
     <FooterContainer>
-      <FeesCopy type="span">{FEES_COPY}</FeesCopy>
       <BreakdownContainer>
         <BreakdownRow>
           <Body type="span">Subtotal</Body>
@@ -62,6 +64,7 @@ const Footer = ({ onClick, breakdown }: FooterProps) => {
           <Body type="span">Fees</Body>
           <Body type="span">{toCurrency(fees)}</Body>
         </BreakdownRow>
+        <FeesCopy type="span">{FEES_COPY}</FeesCopy>
         <BreakdownRow $emphasized>
           <Body type="span" fontWeight="bold">
             Total

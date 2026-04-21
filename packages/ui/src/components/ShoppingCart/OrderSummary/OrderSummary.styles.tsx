@@ -45,7 +45,7 @@ export const FeesCopy = styled.p(
   ({ theme: { typography } }) => css`
     font-size: ${typography.fontSize.bodyXS};
     opacity: 0.7;
-    margin: 1rem 0 0.5rem;
+    margin: 0.25rem 0 0.5rem;
   `
 )
 

@@ -42,7 +42,6 @@ export const OrderSummary = ({ cartItems, breakdown }: OrderSummaryProps) => {
             <Body>Your cart is empty.</Body>
           )}
         </CartItemsContainer>
-        <FeesCopy>{FEES_COPY}</FeesCopy>
         <BottomContainer>
           <BreakdownRow>
             <Body type="span">Subtotal</Body>
@@ -52,6 +51,7 @@ export const OrderSummary = ({ cartItems, breakdown }: OrderSummaryProps) => {
             <Body type="span">Fees</Body>
             <Body type="span">{toCurrency(fees)}</Body>
           </BreakdownRow>
+          <FeesCopy>{FEES_COPY}</FeesCopy>
           <BreakdownRow>
             <Body>Total</Body>
             <StyledHeading level={2}>{toCurrency(effectiveBreakdown.total)}</StyledHeading>
