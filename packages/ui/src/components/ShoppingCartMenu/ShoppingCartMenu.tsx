@@ -14,18 +14,52 @@ const FooterContainer = styled.div`
   justify-content: space-between;
 `
 
-const TotalSection = styled.div`
+const Breakdown = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 24px;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
 `
 
-const Footer = ({ onClick, totalPrice }: any) => (
+const Row = styled.div<{ $emphasized?: boolean }>`
+  display: flex;
+  justify-content: space-between;
+  font-weight: ${({ $emphasized }) => ($emphasized ? 600 : 'inherit')};
+`
+
+const FeeNote = styled(Body)`
+  opacity: 0.7;
+  margin-bottom: 16px;
+`
+
+type FooterProps = {
+  onClick?: () => void
+  subtotal: number
+  fees: number
+  totalPrice: number
+}
+
+const Footer = ({ onClick, subtotal, fees, totalPrice }: FooterProps) => (
   <FooterContainer>
-    <TotalSection>
-      <Body type="span">Total</Body>
-      <Body type="span">{toCurrency(totalPrice)}</Body>
-    </TotalSection>
+    <Breakdown>
+      <Row>
+        <Body type="span">Subtotal</Body>
+        <Body type="span">{toCurrency(subtotal)}</Body>
+      </Row>
+      <Row>
+        <Body type="span">Fees</Body>
+        <Body type="span">{toCurrency(fees)}</Body>
+      </Row>
+      <Row $emphasized>
+        <Body type="span" fontWeight="medium">
+          Total
+        </Body>
+        <Body type="span" fontWeight="medium">
+          {toCurrency(totalPrice)}
+        </Body>
+      </Row>
+    </Breakdown>
+    <FeeNote type="span">Fees cover delivery and keeping our riders on the road.</FeeNote>
     <Button disabled={totalPrice === 0} large onClick={onClick}>
       Checkout
     </Button>
@@ -65,6 +99,8 @@ const ShoppingCartMenuItem = ({ item, onChange }: any) => (
 
 type ShoppingCartMenuProps = {
   isOpen: boolean
+  subtotal: number
+  fees: number
   totalPrice: number
   onClose: () => void
   cartItems: CartItem[]
@@ -76,6 +112,8 @@ export const ShoppingCartMenu = ({
   isOpen,
   onClose,
   cartItems,
+  subtotal,
+  fees,
   totalPrice,
   onItemChange,
   onGoToCheckoutClick,
@@ -84,7 +122,14 @@ export const ShoppingCartMenu = ({
     title="Your order"
     onClose={onClose}
     isOpen={isOpen}
-    footer={<Footer onClick={onGoToCheckoutClick} totalPrice={totalPrice} />}
+    footer={
+      <Footer
+        onClick={onGoToCheckoutClick}
+        subtotal={subtotal}
+        fees={fees}
+        totalPrice={totalPrice}
+      />
+    }
   >
     <div style={{ display: 'grid', gap: '15px' }}>
       {cartItems.map((item) => (

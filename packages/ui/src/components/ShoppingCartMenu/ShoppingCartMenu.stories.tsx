@@ -19,7 +19,9 @@ const meta = {
   args: {
     isOpen: true,
     cartItems: cartItems,
-    totalPrice: 1200,
+    subtotal: 1200,
+    fees: 122.99,
+    totalPrice: 1322.99,
     /*
     The following lines emulate the event handlers that would be passed to the component
     Read more about the `fn` utility function at
@@ -36,6 +38,8 @@ type Story = StoryObj<typeof meta>
 export const Empty: Story = {
   args: {
     cartItems: [],
+    subtotal: 0,
+    fees: 0,
     totalPrice: 0,
   },
 }
@@ -65,7 +69,9 @@ export const Playground: Story = {
         <ShoppingCartMenu
           isOpen={isOpen}
           cartItems={cartItems}
-          totalPrice={1200}
+          subtotal={1200}
+          fees={122.99}
+          totalPrice={1322.99}
           onItemChange={() => {}}
           onClose={() => {
             closeShoppingCartMenu()

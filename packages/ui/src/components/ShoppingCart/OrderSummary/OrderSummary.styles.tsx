@@ -34,6 +34,27 @@ export const BottomContainer = styled.div`
   justify-content: space-between;
 `
 
+export const BreakdownContainer = styled.div`
+  margin-top: auto;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+`
+
+export const BreakdownRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+export const FeeNote = styled.p(
+  ({ theme: { typography } }) => css`
+    margin: 0.25rem 0 0.75rem;
+    font-size: ${typography.fontSize.body};
+    opacity: 0.7;
+  `
+)
+
 export const EmptyMessageContainer = styled.span`
   font-size: 18px;
   margin: 50px auto;
